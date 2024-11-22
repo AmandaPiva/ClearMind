@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using ClearMind.ClearMind.Data.Enuns;
+
+
+namespace ClearMind.ClearMind.Data.Models
+{
+    [Table("Emocao")]
+    public class Emocao
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [StringLength(150)]
+        public string NomeEmocao { get; set; } = string.Empty;
+
+        [Required]
+        public int PessoaId { get; set; }
+        public Pessoa pessoa { get; set; }
+        public Decisao decisao{ get; set; }
+    }
+}
