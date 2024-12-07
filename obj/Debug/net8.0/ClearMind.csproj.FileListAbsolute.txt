@@ -165,3 +165,9 @@ C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\ne
 C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Amanda Piva\OneDrive\Documentos\ProjetoClearMind\ClearMind\obj\Debug\net8.0\ClearMind.MvcApplicationPartsAssemblyInfo.cs
