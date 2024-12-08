@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen(); // Registrar Swagger
 
 //Adicionando Escopo dos Serviços criados como Injeção de Dependencias
 builder.Services.AddScoped<PessoaService>();
+builder.Services.AddScoped<EmocaoService>();
 
 var app = builder.Build();
 

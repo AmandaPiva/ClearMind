@@ -20,7 +20,11 @@ namespace ClearMind.ClearMind.Data.Models
 
         [Required]
         public int PessoaId { get; set; }
-        public Pessoa pessoa { get; set; }
+         
+        [ForeignKey(nameof(PessoaId))]
+        public Pessoa? pessoa { get; set; }
+
+        //Enum
         public Decisao decisao{ get; set; }
     }
 }
