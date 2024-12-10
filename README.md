@@ -8,3 +8,6 @@ O usuário fornecerá uma emoção, e usando o algorítimo de árvores de decis�
 
 ## Bibliotecas e Frameworks
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+
+## Outras Ferramentas
+![Gemini]
