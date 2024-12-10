@@ -55,13 +55,15 @@ namespace ClearMind.ClearMind.Api.Controllers
 
             //Enviar prompt para a IA
             var resposta = await _geminiClientService.SendPromptGeminiAsync( contextoEmocional);
-            return StatusCode(200, new { Resposta = resposta });
+
+            //Salvando a emoção no banco de dados
+            var saveEmotion = await _emocaoService.SetEmocao(request);
+            return StatusCode(200, new { Resposta = resposta, Save = saveEmotion });
           }
           catch(Exception ex)
           {
             return StatusCode(500, new { Erro = ex.Message });
           }
-         
         }
     }
 }
