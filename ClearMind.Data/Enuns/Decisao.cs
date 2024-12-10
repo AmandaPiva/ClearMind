@@ -2,10 +2,11 @@ namespace ClearMind.ClearMind.Data.Enuns
 {
     public enum Decisao
     {
-        RAIVA = 0,
-        TRISTEZA = 1,
-        MEDO = 2,
-        INVEJA = 3,
-        OUTRO = 4
+        NONE = 0,
+        RAIVA = 1,
+        TRISTEZA = 2,
+        MEDO = 3,
+        INVEJA = 4,
+        OUTRO = 5
     }
 }

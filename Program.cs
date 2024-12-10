@@ -1,3 +1,4 @@
+using ClearMind.ClearMind.Api.Controllers;
 using ClearMind.ClearMind.Api.Data;
 using ClearMind.ClearMind.Application.Services;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+var apiKey = builder.Configuration["GeminiApiKey"];
+if (string.IsNullOrEmpty(apiKey))
+{
+    throw new Exception("A chave da API do Gemini não foi configurada.");
+}
+
 // Adiciona serviços ao contêiner
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer(); // Necessário para integrar Swagger
@@ -18,6 +25,13 @@ builder.Services.AddSwaggerGen(); // Registrar Swagger
 //Adicionando Escopo dos Serviços criados como Injeção de Dependencias
 builder.Services.AddScoped<PessoaService>();
 builder.Services.AddScoped<EmocaoService>();
+
+// Configuração do HttpClient e do GeminiClientService
+builder.Services.AddHttpClient<GeminiClientService>(client =>
+{
+    client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"); // Substitua pela URL correta
+}).AddTypedClient((httpClient, serviceProvider) =>
+    new GeminiClientService(httpClient, apiKey));
 
 var app = builder.Build();
 

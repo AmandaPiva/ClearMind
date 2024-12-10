@@ -25,6 +25,6 @@ namespace ClearMind.ClearMind.Data.Models
         public Pessoa? pessoa { get; set; }
 
         //Enum
-        public Decisao decisao{ get; set; }
+        public Decisao decisao { get; set; } = Decisao.NONE; //Define como valor padrão NONE
     }
 }
