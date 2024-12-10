@@ -14,5 +14,5 @@ A ideia principal do projeto é que o usuário possa informar o que está sentin
 
 ## Outras ferramentas
 
-![Gemini]
+Gemini
 
