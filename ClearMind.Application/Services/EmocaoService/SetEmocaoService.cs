@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClearMind.ClearMind.Api.Data;
 using ClearMind.ClearMind.Data.Enuns;
 using ClearMind.ClearMind.Data.Models;
+using ClearMind.ClearMind.Data.Models.ConversaEstado;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -46,6 +47,29 @@ namespace ClearMind.ClearMind.Application.Services
             _dbContext.Emocao.Add(emocao);
             await _dbContext.SaveChangesAsync();
             return emocao;
+        }
+
+        public async Task<ConversaEstado> SalvarConversaEstado(ConversaEstado conversaEstado)
+        {
+            var estadoExistente = await _dbContext.conversaEstados.FindAsync(conversaEstado.PessoaId);
+
+            if(estadoExistente == null)
+            {
+                await _dbContext.conversaEstados.AddAsync(conversaEstado);
+            }
+            else
+            {
+                estadoExistente.ContextoAtual = conversaEstado.ContextoAtual;
+                estadoExistente.Finalizado = conversaEstado.Finalizado;
+            }
+
+            await _dbContext.SaveChangesAsync();
+            return conversaEstado;
+        }
+
+        public async Task<ConversaEstado> ObterEstadoConversa(int pessoaId)
+        {
+            return await _dbContext.conversaEstados.FindAsync(pessoaId);
         }
         public async Task<Emocao> ObterUltimaEmocaoAsync(int pessoaId)
         {

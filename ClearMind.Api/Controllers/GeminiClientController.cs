@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ClearMind.ClearMind.Application.Services;
 using ClearMind.ClearMind.Data.Enuns;
 using ClearMind.ClearMind.Data.Models;
-using ClearMind.ClearMind.Data.Models.GeminiRequests;
+using ClearMind.ClearMind.Data.Models.ConversaEstado;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClearMind.ClearMind.Api.Controllers
@@ -15,7 +15,6 @@ namespace ClearMind.ClearMind.Api.Controllers
         private readonly SetEmocaoService _emocaoService;
         private readonly GeminiClientService _geminiClientService;
 
-        // Construtor para injeção de dependências
         public GeminiClientController(SetEmocaoService emocaoService, GeminiClientService geminiClientService)
         {
             _emocaoService = emocaoService ?? throw new ArgumentNullException(nameof(emocaoService));
@@ -37,11 +36,23 @@ namespace ClearMind.ClearMind.Api.Controllers
 
             try
             {
-                // Obtém o contexto emocional anterior do usuário
-                string contextoEmocional = await ObterContextoEmocional(request.PessoaId);
+                // Obtém o estado atual da conversa
+                var estadoConversa = await _emocaoService.ObterEstadoConversa(request.PessoaId);
+                string contextoAtual = estadoConversa?.ContextoAtual ?? "Nenhuma emoção foi registrada anteriormente.";
 
-                // Envia a mensagem ao Gemini com o contexto emocional
-                string respostaGemini = await _geminiClientService.SendPromptGeminiAsync(contextoEmocional);
+                // Atualiza o contexto com a nova emoção
+                string novoContexto = $"{contextoAtual} O usuário descreveu sua emoção como: {request.NomeEmocao}.";
+
+                // Envia o contexto atualizado para a IA Gemini
+                var respostaGemini = await _geminiClientService.SendPromptGeminiAsync(novoContexto);
+
+                // Salva o novo estado da conversa no banco de dados
+                await _emocaoService.SalvarConversaEstado(new ConversaEstado
+                {
+                    PessoaId = request.PessoaId,
+                    ContextoAtual = novoContexto,
+                    Finalizado = !respostaGemini.AguardaMaisInformacoes
+                });
 
                 // Salva a emoção associada à conversa
                 var emocaoSalva = await _emocaoService.SetEmocao(new Emocao
@@ -51,30 +62,28 @@ namespace ClearMind.ClearMind.Api.Controllers
                     decisao = request.decisao
                 });
 
-                return Ok(new { Resposta = respostaGemini, EmocaoSalva = emocaoSalva });
+                // Retorna a resposta da IA e o estado da conversa
+                if (respostaGemini.AguardaMaisInformacoes)
+                {
+                    return Ok(new
+                    {
+                        Resposta = respostaGemini.Resposta,
+                        EmocaoSalva = emocaoSalva,
+                        Mensagem = "A IA está aguardando mais informações."
+                    });
+                }
+
+                return Ok(new
+                {
+                    Resposta = respostaGemini.Resposta,
+                    EmocaoSalva = emocaoSalva,
+                    Mensagem = "Conversa finalizada com sucesso."
+                });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { Erro = ex.Message });
             }
-        }
-
-        private async Task<string> ObterContextoEmocional(int pessoaId)
-        {
-            // Obtém a última emoção do usuário
-            var emocao = await _emocaoService.ObterUltimaEmocaoAsync(pessoaId);
-
-            if (emocao == null)
-            {
-                return "Nenhuma emoção foi registrada anteriormente.";
-            }
-
-            if (emocao.decisao != Decisao.NONE)
-            {
-                return $"O usuário está se sentindo {emocao.decisao}.";
-            }
-
-            return $"O usuário descreveu sua emoção como: {emocao.NomeEmocao}.";
         }
     }
 }

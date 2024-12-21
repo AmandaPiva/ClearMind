@@ -18,8 +18,15 @@ namespace ClearMind.ClearMind.Application.Services
             _apiKey = apiKey;
         }
 
+          // Classe para representar a resposta processada da IA
+        public class GeminiResponse
+        {
+            public string Resposta { get; set; }
+            public bool AguardaMaisInformacoes { get; set; }
+        }
+
         //Prompt IA
-        public async Task<string> SendPromptGeminiAsync( string? contextoEmocional)
+        public async Task<GeminiResponse> SendPromptGeminiAsync( string? contextoEmocional)
         {
          
             var fullPrompt = $"{contextoEmocional}";
@@ -57,9 +64,24 @@ namespace ClearMind.ClearMind.Application.Services
             {
                 throw new Exception($"Erro na chamada da API: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
             }
-           
-           return await response.Content.ReadAsStringAsync();
-           
+
+               // Processa a resposta JSON da API
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Tente interpretar a resposta da IA
+            dynamic responseJson = JsonConvert.DeserializeObject(responseContent);
+            string respostaTexto = responseJson?.generatedText ?? "A resposta da IA não pôde ser interpretada.";
+
+            // Identificar se a IA está aguardando mais informações
+            bool aguardaMaisInformacoes = respostaTexto.Contains("Deseja fornecer mais informações?", StringComparison.OrdinalIgnoreCase);
+
+            // Retorna o objeto de resposta processada
+            return new GeminiResponse
+            {
+                Resposta = respostaTexto,
+                AguardaMaisInformacoes = aguardaMaisInformacoes
+            };
+                      
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClearMind.ClearMind.Data.Models;
 using ClearMind.ClearMind.Data.Models.Anotacoes;
+using ClearMind.ClearMind.Data.Models.ConversaEstado;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClearMind.ClearMind.Api.Data
@@ -16,6 +17,7 @@ namespace ClearMind.ClearMind.Api.Data
         public DbSet<Pessoa> Pessoa { get; set; }
         public DbSet<Emocao> Emocao { get; set; }
         public DbSet<Anotacoes> anotacoes{ get; set; }
+        public DbSet<ConversaEstado> conversaEstados{ get; set; }
 
     }
 }
