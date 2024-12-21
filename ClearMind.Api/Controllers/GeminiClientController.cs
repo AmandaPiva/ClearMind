@@ -69,12 +69,22 @@ namespace ClearMind.ClearMind.Api.Controllers
                 return "Nenhuma emoção foi registrada anteriormente.";
             }
 
-            if (emocao.decisao != Decisao.NONE)
+            if (emocao.decisao != Decisao.NONE && emocao.NomeEmocao == "")
             {
                 return $"O usuário está se sentindo {emocao.decisao}.";
             }
-
-            return $"O usuário descreveu sua emoção como: {emocao.NomeEmocao}.";
+            else if (emocao.decisao == Decisao.NONE && emocao.NomeEmocao != "")
+            {
+                return $"O usuário descreveu sua emoção como: {emocao.NomeEmocao}.";
+            }
+            else if (emocao.decisao != Decisao.NONE && emocao.NomeEmocao != "" )
+            {
+                 return $"O usuário está se sentindo {emocao.decisao} e descreveu ela como: {emocao.NomeEmocao}.";
+            }
+           else
+           {
+             return $"Escolha uma emoção ou descreva ela com suas palavras";
+           }
         }
     }
 }

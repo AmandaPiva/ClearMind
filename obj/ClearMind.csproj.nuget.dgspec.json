@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Amanda Piva\\OneDrive\\Documentos\\ProjetoClearMind\\ClearMind\\ClearMind.csproj": {}
+    "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Amanda Piva\\OneDrive\\Documentos\\ProjetoClearMind\\ClearMind\\ClearMind.csproj": {
+    "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Amanda Piva\\OneDrive\\Documentos\\ProjetoClearMind\\ClearMind\\ClearMind.csproj",
+        "projectUniqueName": "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj",
         "projectName": "ClearMind",
-        "projectPath": "C:\\Users\\Amanda Piva\\OneDrive\\Documentos\\ProjetoClearMind\\ClearMind\\ClearMind.csproj",
+        "projectPath": "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj",
         "packagesPath": "C:\\Users\\Amanda Piva\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Amanda Piva\\OneDrive\\Documentos\\ProjetoClearMind\\ClearMind\\obj\\",
+        "outputPath": "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Amanda Piva\\AppData\\Roaming\\NuGet\\NuGet.Config",
