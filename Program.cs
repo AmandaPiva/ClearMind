@@ -1,6 +1,7 @@
 using ClearMind.ClearMind.Api.Controllers;
 using ClearMind.ClearMind.Api.Data;
 using ClearMind.ClearMind.Application.Services;
+using ClearMind.ClearMind.Application.Services.EmocaoService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +25,9 @@ builder.Services.AddSwaggerGen(); // Registrar Swagger
 
 //Adicionando Escopo dos Serviços criados como Injeção de Dependencias
 builder.Services.AddScoped<PessoaService>();
-builder.Services.AddScoped<EmocaoService>();
+builder.Services.AddScoped<SetEmocaoService>();
+builder.Services.AddScoped<ObterContextoAnteriorService>();
+
 
 // Configuração do HttpClient e do GeminiClientService
 builder.Services.AddHttpClient<GeminiClientService>(client =>

@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ClearMind.ClearMind.Application.Services;
 using ClearMind.ClearMind.Data.Enuns;
 using ClearMind.ClearMind.Data.Models;
 using ClearMind.ClearMind.Data.Models.GeminiRequests;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClearMind.ClearMind.Api.Controllers
@@ -15,11 +12,11 @@ namespace ClearMind.ClearMind.Api.Controllers
     [Route("api/[controller]")]
     public class GeminiClientController : ControllerBase
     {
-        private readonly EmocaoService _emocaoService;
+        private readonly SetEmocaoService _emocaoService;
         private readonly GeminiClientService _geminiClientService;
 
-         // Construtor com injeção de dependência
-        public GeminiClientController(EmocaoService emocaoService, GeminiClientService geminiClientService)
+        // Construtor para injeção de dependências
+        public GeminiClientController(SetEmocaoService emocaoService, GeminiClientService geminiClientService)
         {
             _emocaoService = emocaoService ?? throw new ArgumentNullException(nameof(emocaoService));
             _geminiClientService = geminiClientService ?? throw new ArgumentNullException(nameof(geminiClientService));
@@ -28,42 +25,56 @@ namespace ClearMind.ClearMind.Api.Controllers
         [HttpPost("chat")]
         public async Task<IActionResult> EnviarMensagemEmocao([FromBody] Emocao request)
         {
-          if (request == null)
-          {
-            return BadRequest(new { Erro = "O corpo da requisição não pode ser nulo." });
-          }
-
-          if(request.PessoaId <= 0)
-          {
-             return BadRequest(new { Erro = "O ID da pessoa é inválido." });
-          }
-
-          try
-          {
-          
-            string contextoEmocional;
-
-            if(request.decisao != Decisao.NONE)
+            if (request == null)
             {
-                 // Usa a emoção do enum `Decisao` se disponível
-                contextoEmocional = $"O usuário está se sentindo {request.decisao}.";
-            }
-            else
-            {
-                contextoEmocional = $"O usuário descreveu sua emoção como: {request.NomeEmocao}.";
+                return BadRequest(new { Erro = "O corpo da requisição não pode ser nulo." });
             }
 
-            //Enviar prompt para a IA
-            var resposta = await _geminiClientService.SendPromptGeminiAsync( contextoEmocional);
+            if (request.PessoaId <= 0)
+            {
+                return BadRequest(new { Erro = "O ID da pessoa é inválido." });
+            }
 
-            //Salvando a emoção no banco de dados
-            var saveEmotion = await _emocaoService.SetEmocao(request);
-            return StatusCode(200, new { Resposta = resposta, Save = saveEmotion });
-          }
-          catch(Exception ex)
-          {
-            return StatusCode(500, new { Erro = ex.Message });
-          }
+            try
+            {
+                // Obtém o contexto emocional anterior do usuário
+                string contextoEmocional = await ObterContextoEmocional(request.PessoaId);
+
+                // Envia a mensagem ao Gemini com o contexto emocional
+                string respostaGemini = await _geminiClientService.SendPromptGeminiAsync(contextoEmocional);
+
+                // Salva a emoção associada à conversa
+                var emocaoSalva = await _emocaoService.SetEmocao(new Emocao
+                {
+                    PessoaId = request.PessoaId,
+                    NomeEmocao = request.NomeEmocao,
+                    decisao = request.decisao
+                });
+
+                return Ok(new { Resposta = respostaGemini, EmocaoSalva = emocaoSalva });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Erro = ex.Message });
+            }
+        }
+
+        private async Task<string> ObterContextoEmocional(int pessoaId)
+        {
+            // Obtém a última emoção do usuário
+            var emocao = await _emocaoService.ObterUltimaEmocaoAsync(pessoaId);
+
+            if (emocao == null)
+            {
+                return "Nenhuma emoção foi registrada anteriormente.";
+            }
+
+            if (emocao.decisao != Decisao.NONE)
+            {
+                return $"O usuário está se sentindo {emocao.decisao}.";
+            }
+
+            return $"O usuário descreveu sua emoção como: {emocao.NomeEmocao}.";
         }
     }
 }

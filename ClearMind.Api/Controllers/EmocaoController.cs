@@ -13,9 +13,9 @@ namespace ClearMind.ClearMind.Api.Controllers
     public class EmocaoController : ControllerBase
     {
         //propriedade somente leitura que da acesso ao Service
-        private readonly EmocaoService _emocaoService;
+        private readonly SetEmocaoService _emocaoService;
 
-        public EmocaoController(EmocaoService emocaoService)
+        public EmocaoController(SetEmocaoService emocaoService)
         {
             _emocaoService = emocaoService;
         }
