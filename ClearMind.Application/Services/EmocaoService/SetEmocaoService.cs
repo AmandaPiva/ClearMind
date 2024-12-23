@@ -49,10 +49,13 @@ namespace ClearMind.ClearMind.Application.Services
         }
         public async Task<Emocao> ObterUltimaEmocaoAsync(int pessoaId)
         {
-            return await _dbContext.Emocao
-                .Where(e => e.PessoaId == pessoaId)
-                .OrderByDescending(e => e.Id)
-                .FirstOrDefaultAsync();
+            var ultimaEmocao = await _dbContext.Emocao
+            .Where(e => e.PessoaId == pessoaId)
+            .OrderByDescending(e => e.Id)
+            .FirstOrDefaultAsync();
+
+
+            return ultimaEmocao;
         }
 
     }

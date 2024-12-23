@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj": {}
+    "C:\\Users\\amand\\Documents\\ClearMind\\ClearMind.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj": {
+    "C:\\Users\\amand\\Documents\\ClearMind\\ClearMind.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj",
+        "projectUniqueName": "C:\\Users\\amand\\Documents\\ClearMind\\ClearMind.csproj",
         "projectName": "ClearMind",
-        "projectPath": "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\ClearMind.csproj",
-        "packagesPath": "C:\\Users\\Amanda Piva\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Amanda Piva\\Documents\\ClearMind\\obj\\",
+        "projectPath": "C:\\Users\\amand\\Documents\\ClearMind\\ClearMind.csproj",
+        "packagesPath": "C:\\Users\\amand\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\amand\\Documents\\ClearMind\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Amanda Piva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\amand\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -93,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

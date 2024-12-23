@@ -32,7 +32,10 @@ builder.Services.AddHttpClient<GeminiClientService>(client =>
 {
     client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"); // Substitua pela URL correta
 }).AddTypedClient((httpClient, serviceProvider) =>
-    new GeminiClientService(httpClient, apiKey));
+{
+    var emocaoService = serviceProvider.GetRequiredService<SetEmocaoService>();
+    return new GeminiClientService(httpClient, apiKey, emocaoService);
+});
 
 var app = builder.Build();
 
