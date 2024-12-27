@@ -34,7 +34,6 @@ namespace ClearMind.ClearMind.Application.Services
             // Obtém o contexto emocional (se existir)
             var contextoEmocional = await ObterContextoEmocional(request.PessoaId, request);
 
-            Console.WriteLine(contextoEmocional);
 
             if (contextoEmocional == null)
             {
@@ -52,8 +51,8 @@ namespace ClearMind.ClearMind.Application.Services
 
         private async Task<string> ObterContextoEmocional(int pessoaId, Emocao request)
         {
-            
-          var novaEmocao = await _emocaoService.SetEmocao(new Emocao
+            //enviando a nova emoção para o banco de dados
+            var novaEmocao = await _emocaoService.SetEmocao(new Emocao
                 {
                     PessoaId = request.PessoaId,
                     NomeEmocao = request.NomeEmocao,
@@ -76,7 +75,7 @@ namespace ClearMind.ClearMind.Application.Services
             {
                 return "O usuário não descreveu sua emoção";
             }
-           // ou qualquer propriedade que você precise
+           
         }
 
         //Prompt IA
@@ -119,8 +118,6 @@ namespace ClearMind.ClearMind.Application.Services
                 throw new Exception($"Erro na chamada da API: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
             }
 
-            
-           
            return await response.Content.ReadAsStringAsync();
            
         }

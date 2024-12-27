@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClearMind.ClearMind.Application.Services;
+using ClearMind.ClearMind.Application.Services.EmocaoService;
 using ClearMind.ClearMind.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,15 @@ namespace ClearMind.ClearMind.Api.Controllers
         //propriedade somente leitura que da acesso ao Service
         private readonly SetEmocaoService _emocaoService;
 
-        public EmocaoController(SetEmocaoService emocaoService)
+        private readonly countEmocoesPessoa _countEmocoesPessoa;
+
+        private readonly getEmocoesPessoaService _emocaoPessoaService;
+
+        public EmocaoController(SetEmocaoService emocaoService, getEmocoesPessoaService emocaoPessoaService, countEmocoesPessoa countEmocoesPessoa)
         {
             _emocaoService = emocaoService;
+            _emocaoPessoaService = emocaoPessoaService;
+            _countEmocoesPessoa = countEmocoesPessoa;
         }
 
         [HttpPost]
@@ -36,5 +43,32 @@ namespace ClearMind.ClearMind.Api.Controllers
                 emocaoCriada
             );
         }
+
+        [HttpGet("{pessoaId}")]
+        public async Task<IActionResult> GetEmocoesByPessoa(int pessoaId)
+        {
+            if(pessoaId <= 0)
+            {
+                return BadRequest("ID inválido ou pessoa não encontrada");
+            }
+
+            var emocoes = await _emocaoPessoaService.GetEmocoesByPessoa(pessoaId);
+
+            return Ok(emocoes);
+        }
+
+        [HttpGet("count/{pessoaId}")]
+        public async Task<IActionResult> CountEmocoesByPessoa(int pessoaId)
+        {
+            if(pessoaId <= 0)
+            {
+                return BadRequest("ID inválido ou pessoa não encontrada");
+            }
+
+            var emocoes = await _countEmocoesPessoa.CountEmocoesByPessoa(pessoaId);
+
+            return Ok(emocoes);
+        }
+        
     }
 }
