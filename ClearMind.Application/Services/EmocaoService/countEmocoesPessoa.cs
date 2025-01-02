@@ -25,7 +25,7 @@ namespace ClearMind.ClearMind.Application.Services.EmocaoService
 
             var medo = emocoes.Count(e => e.decisao == Data.Enuns.Decisao.MEDO || e.NomeEmocao.Contains("medo"));
             var raiva = emocoes.Count(e => e.decisao == Data.Enuns.Decisao.RAIVA || e.NomeEmocao.Contains("raiva"));
-            var tristeza = emocoes.Count(e => e.decisao == Data.Enuns.Decisao.TRISTEZA || e.NomeEmocao.Contains("tristeza"));
+            var tristeza = emocoes.Count(e => e.decisao == Data.Enuns.Decisao.TRISTEZA || e.NomeEmocao.Contains("triste"));
             var inveja = emocoes.Count(e => e.decisao == Data.Enuns.Decisao.INVEJA || e.NomeEmocao.Contains("inveja"));
 
             return new Dictionary<string, int>

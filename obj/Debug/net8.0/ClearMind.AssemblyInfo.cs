@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClearMind")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c79c009903f1c3d7b8b0e3238231e05268c1e851")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09ac73e7abf9645497be0e762491b45f3dbd6a77")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClearMind")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClearMind")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
