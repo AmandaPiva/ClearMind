@@ -15,7 +15,7 @@ namespace ClearMind.ClearMind.Api.Data
         //MODELOS 
         public DbSet<Pessoa> Pessoa { get; set; }
         public DbSet<Emocao> Emocao { get; set; }
-        public DbSet<Anotacoes> anotacoes{ get; set; }
+        public DbSet<Anotacoes> Anotacoes{ get; set; }
 
     }
 }

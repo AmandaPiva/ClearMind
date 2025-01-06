@@ -2,6 +2,7 @@
 using ClearMind.ClearMind.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ClearMind.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20250106125549_DB11")]
+    partial class DB11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +40,12 @@ namespace ClearMind.Migrations
                     b.Property<int>("IdEmocao")
                         .HasColumnType("integer");
 
+                    b.Property<int>("emocaoId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("IdEmocao");
+                    b.HasIndex("emocaoId");
 
                     b.ToTable("Anotacoes");
                 });
@@ -102,7 +108,7 @@ namespace ClearMind.Migrations
                 {
                     b.HasOne("ClearMind.ClearMind.Data.Models.Emocao", "emocao")
                         .WithMany()
-                        .HasForeignKey("IdEmocao")
+                        .HasForeignKey("emocaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

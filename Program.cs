@@ -2,6 +2,7 @@ using System.Text;
 using ClearMind.ClearMind.Api.Controllers;
 using ClearMind.ClearMind.Api.Data;
 using ClearMind.ClearMind.Application.Services;
+using ClearMind.ClearMind.Application.Services.AnotacoesService;
 using ClearMind.ClearMind.Application.Services.EmocaoService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +86,7 @@ builder.Services.AddScoped<SetEmocaoService>();
 builder.Services.AddScoped<getEmocoesPessoaService>();
 builder.Services.AddScoped<countEmocoesPessoa>();
 builder.Services.AddScoped<GenerateTokenPessoa>();
+builder.Services.AddScoped<AnotacoesService>();
 
 
 // Configuração do HttpClient e do GeminiClientService

@@ -15,7 +15,7 @@ namespace ClearMind.ClearMind.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [StringLength(150)]
+        [StringLength(600)]
         public string NomeEmocao { get; set; } = string.Empty;
 
         [Required]
