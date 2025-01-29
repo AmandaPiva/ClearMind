@@ -12,6 +12,7 @@ namespace ClearMind.ClearMind.Data.Models
     [Table("Emocao")]
     public class Emocao
     {
+
         [Key]
         public int Id { get; set; }
 
@@ -24,7 +25,9 @@ namespace ClearMind.ClearMind.Data.Models
         [ForeignKey(nameof(PessoaId))]
         public Pessoa? pessoa { get; set; }
 
+        public List<Anotacoes> anotacoes { get; set; } = new List<Anotacoes>();
         //Enum
         public Decisao decisao { get; set; } = Decisao.NONE; //Define como valor padrão NONE
+
     }
 }

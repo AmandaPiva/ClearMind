@@ -21,6 +21,7 @@ namespace ClearMind.ClearMind.Application.Services.EmocaoService
             var emocoes = await _dbContext.Emocao
             .Where(e => e.PessoaId == pessoaId)
             .OrderByDescending(e => e.Id)
+            .Include(e => e.anotacoes)
             .ToListAsync();
 
             return emocoes;

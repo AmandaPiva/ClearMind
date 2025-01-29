@@ -4986,11 +4986,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\amand\\Documents\\ClearMind\\ClearMind.csproj",
+      "projectUniqueName": "C:\\Users\\amand\\OneDrive\\Documentos\\ClearMind\\ClearMind.csproj",
       "projectName": "ClearMind",
-      "projectPath": "C:\\Users\\amand\\Documents\\ClearMind\\ClearMind.csproj",
+      "projectPath": "C:\\Users\\amand\\OneDrive\\Documentos\\ClearMind\\ClearMind.csproj",
       "packagesPath": "C:\\Users\\amand\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\amand\\Documents\\ClearMind\\obj\\",
+      "outputPath": "C:\\Users\\amand\\OneDrive\\Documentos\\ClearMind\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\amand\\AppData\\Roaming\\NuGet\\NuGet.Config",

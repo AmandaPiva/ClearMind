@@ -87,6 +87,7 @@ builder.Services.AddScoped<getEmocoesPessoaService>();
 builder.Services.AddScoped<countEmocoesPessoa>();
 builder.Services.AddScoped<GenerateTokenPessoa>();
 builder.Services.AddScoped<AnotacoesService>();
+builder.Services.AddScoped<DeleteAnotacaoService>();
 
 
 // Configuração do HttpClient e do GeminiClientService

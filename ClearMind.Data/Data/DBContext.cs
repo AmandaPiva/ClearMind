@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClearMind.ClearMind.Data.Models;
-using ClearMind.ClearMind.Data.Models.Anotacoes;
+using ClearMind.ClearMind.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClearMind.ClearMind.Api.Data
