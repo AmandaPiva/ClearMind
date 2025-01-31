@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ClearMind.ClearMind.Data.Enuns;
 using ClearMind.ClearMind.Data.Models;
+using ClearMind.ClearMind.Data.Models.PalavrasOfensivas;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 
@@ -18,14 +21,36 @@ namespace ClearMind.ClearMind.Application.Services
         private readonly string _apiKey;
 
         private readonly SetEmocaoService _emocaoService;
+        private readonly PalavrasOfensivasConf _palavrasOfensivasConfig;
 
-        public GeminiClientService(HttpClient httpClient, string apiKey, SetEmocaoService emocaoService)
+        public GeminiClientService(HttpClient httpClient, string apiKey, SetEmocaoService emocaoService,  IOptions<PalavrasOfensivasConf> palavrasOfensivasOptions)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
             _emocaoService = emocaoService ?? throw new ArgumentNullException(nameof(emocaoService));
+             _palavrasOfensivasConfig = palavrasOfensivasOptions.Value ?? throw new ArgumentNullException(nameof(palavrasOfensivasOptions));
         }
 
+ // Método para censurar palavras ofensivas no texto
+    private string CensurarTexto(string texto)
+    {
+        if (_palavrasOfensivasConfig.PalavrasOfensivas == null)
+            return texto; // Se não houver palavras ofensivas cadastradas, retorna o texto original.
+
+        foreach (var palavra in _palavrasOfensivasConfig.PalavrasOfensivas)
+        {
+            var regex = new Regex(@"\b" + Regex.Escape(palavra) + @"\b", RegexOptions.IgnoreCase);
+            texto = regex.Replace(texto, "***");
+        }
+        return texto;
+    }
+
+    // Método para verificar se há palavras ofensivas e bloquear a mensagem
+    private bool ContemPalavraProibida(string texto)
+    {
+        return _palavrasOfensivasConfig.PalavrasOfensivas?.Any(palavra =>
+            Regex.IsMatch(texto, @"\b" + Regex.Escape(palavra) + @"\b", RegexOptions.IgnoreCase)) ?? false;
+    }
       public async Task<(string RespostaGemini, Emocao EmocaoSalva)> ProcessarMensagemComEmocaoAsync(Emocao request)
         {
             if (request == null)
@@ -51,6 +76,11 @@ namespace ClearMind.ClearMind.Application.Services
 
         private async Task<string> ObterContextoEmocional(int pessoaId, Emocao request)
         {
+              // Verifica se a emoção contém conteúdo ofensivo ANTES de salvar no banco de dados
+            if (ContemConteudoOfensivo(request.NomeEmocao))
+            {
+                throw new Exception("Este tipo de mensagem é ofensiva e contra nossas diretrizes.");
+            }
             //enviando a nova emoção para o banco de dados
             var novaEmocao = await _emocaoService.SetEmocao(new Emocao
                 {
@@ -82,6 +112,13 @@ namespace ClearMind.ClearMind.Application.Services
         public async Task<string> SendPromptGeminiAsync( string? contextoEmocional)
         {
          
+          // Bloquear mensagens que contenham palavras ofensivas
+            if (ContemPalavraProibida(contextoEmocional))
+                return "Sua mensagem contém linguagem inapropriada.";
+
+            // Censurar palavras ofensivas antes de enviar
+            contextoEmocional = CensurarTexto(contextoEmocional);
+
             var fullPrompt = $"{contextoEmocional}";
 
             // Ajustando o formato conforme o exemplo do curl
@@ -120,6 +157,21 @@ namespace ClearMind.ClearMind.Application.Services
 
            return await response.Content.ReadAsStringAsync();
            
+        }
+
+        public bool ContemConteudoOfensivo(string texto)
+        {
+
+            // Verifica se alguma palavra ofensiva está presente na lista do appsettings.json
+            if (_palavrasOfensivasConfig?.PalavrasOfensivas != null)
+            {
+                if (_palavrasOfensivasConfig.PalavrasOfensivas.Any(palavra => texto.Contains(palavra, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

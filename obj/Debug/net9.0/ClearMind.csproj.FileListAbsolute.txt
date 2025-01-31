@@ -322,3 +322,5 @@ C:\Users\amand\OneDrive\Documentos\ClearMind\obj\Debug\net9.0\refint\ClearMind.d
 C:\Users\amand\OneDrive\Documentos\ClearMind\obj\Debug\net9.0\ClearMind.pdb
 C:\Users\amand\OneDrive\Documentos\ClearMind\obj\Debug\net9.0\ClearMind.genruntimeconfig.cache
 C:\Users\amand\OneDrive\Documentos\ClearMind\obj\Debug\net9.0\ref\ClearMind.dll
+C:\Users\amand\OneDrive\Documentos\ClearMind\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\amand\OneDrive\Documentos\ClearMind\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll

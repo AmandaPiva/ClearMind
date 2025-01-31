@@ -4,10 +4,12 @@ using ClearMind.ClearMind.Api.Data;
 using ClearMind.ClearMind.Application.Services;
 using ClearMind.ClearMind.Application.Services.AnotacoesService;
 using ClearMind.ClearMind.Application.Services.EmocaoService;
+using ClearMind.ClearMind.Data.Models.PalavrasOfensivas;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -89,6 +91,8 @@ builder.Services.AddScoped<GenerateTokenPessoa>();
 builder.Services.AddScoped<AnotacoesService>();
 builder.Services.AddScoped<DeleteAnotacaoService>();
 
+builder.Services.Configure<PalavrasOfensivasConf>(builder.Configuration.GetSection("PalavrasOfensivasConf"));
+
 
 // Configuração do HttpClient e do GeminiClientService
 builder.Services.AddHttpClient<GeminiClientService>(client =>
@@ -97,7 +101,8 @@ builder.Services.AddHttpClient<GeminiClientService>(client =>
 }).AddTypedClient((httpClient, serviceProvider) =>
 {
     var emocaoService = serviceProvider.GetRequiredService<SetEmocaoService>();
-    return new GeminiClientService(httpClient, apiKey, emocaoService);
+    var palavrasOfensivasOptions = serviceProvider.GetRequiredService<IOptions<PalavrasOfensivasConf>>();
+    return new GeminiClientService(httpClient, apiKey, emocaoService, palavrasOfensivasOptions);
 });
 
 var app = builder.Build();
